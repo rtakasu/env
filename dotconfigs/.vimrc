@@ -29,7 +29,7 @@ Plugin 'rust-lang/rls'
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/vim-lsp'
 
-Plugin 'ryanolsonx/vim-lsp-python'
+"Plugin 'ryanolsonx/vim-lsp-python'
 "Plugin 'mattn/vim-lsp-settings'
 "Plugin 'lighttiger2505/deoplete-vim-lsp'
 

@@ -62,29 +62,30 @@ RUN pip install python-language-server --user && \
 
 WORKDIR /
 
-# Install fzf
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
-      /root/.fzf/install
+ENV HOME /root
 
-COPY dotconfigs/.vimrc /root/.vimrc
-COPY dotconfigs/init.vim /root/.config/nvim/init.vim
+# Install fzf
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf && \
+      $HOME/.fzf/install
+
+COPY dotconfigs/.vimrc $HOME/.vimrc
+COPY dotconfigs/init.vim $HOME/.config/nvim/init.vim
 
 # Install Vundle and setup nvim
-RUN git clone https://github.com/VundleVim/Vundle.vim.git /root/.vim/bundle/Vundle.vim &&\
+RUN git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim &&\
       vim +PluginInstall +qall && \
-      git clone https://github.com/tomasr/molokai.git /root/.vim/molokai && \
-      mkdir /root/.vim/colors && \
-      cp /root/.vim/molokai/colors/molokai.vim /root/.vim/colors/molokai.vim
+      git clone https://github.com/tomasr/molokai.git $HOME/.vim/molokai && \
+      mkdir $HOME/.vim/colors && \
+      cp $HOME/.vim/molokai/colors/molokai.vim $HOME/.vim/colors/molokai.vim
 
-COPY dotconfigs/.psqlrc /root/.psqlrc
-COPY dotconfigs/.tmux.conf /root/.tmux.conf
-COPY dotconfigs/.zshrc /root/.zshrc
+COPY dotconfigs/.psqlrc $HOME/.psqlrc
+COPY dotconfigs/.gitconfig $HOME/.gitconfig
+COPY dotconfigs/.tmux.conf $HOME/.tmux.conf
+COPY dotconfigs/.zshrc $HOME/.zshrc
 
-RUN mkdir -m 700 /root/.ssh; \
-  touch -m 600 /root/.ssh/known_hosts; \
-  ssh-keyscan github.com > /root/.ssh/known_hosts
+RUN mkdir -m 700 $HOME/.ssh; \
+  touch -m 600 $HOME/.ssh/known_hosts; \
+  ssh-keyscan github.com > $HOME/.ssh/known_hosts
 
 # Load private repos
-RUN --mount=type=ssh git clone git@github.com:rtakasu/virtual_library.git /root/virtual_library
-
-CMD [tmux]
+RUN --mount=type=ssh git clone git@github.com:rtakasu/virtual_library.git $HOME/virtual_library
