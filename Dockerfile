@@ -1,8 +1,6 @@
 # TODO: Not use latest
 FROM debian:latest
 
-WORKDIR /root
-
 RUN apt-get update && apt-get install \
       tig \
       neovim \
@@ -13,23 +11,30 @@ RUN apt-get update && apt-get install \
       jq \
       tree \
       curl -y
-      # TODO: Add vundle
 
 # Install ohmyzsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # Install Tmux package manager
-RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+RUN git clone https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm
 
 # Install pyenv
-RUN git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+RUN curl https://pyenv.run | bash
 
-# Istall fzf
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
-      ~/.fzf/install
+# Install fzf
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
+      /root/.fzf/install
 
-COPY dotconfigs/.psqlrc .psqlrc
-COPY dotconfigs/.tmux.conf .tmux.conf
-COPY dotconfigs/.vimrc .vimrc
-COPY dotconfigs/.zshrc .zshrc
-COPY dotconfigs/init.vim init.vim
+COPY dotconfigs/.vimrc /root/.vimrc
+COPY dotconfigs/init.vim /root/.config/nvim/init.vim
+
+# Install Vundle and setup nvim
+RUN git clone https://github.com/VundleVim/Vundle.vim.git /root/.vim/bundle/Vundle.vim &&\
+      vim +PluginInstall +qall && \
+      git clone https://github.com/tomasr/molokai.git /root/.vim/molokai && \
+      mkdir /root/.vim/colors && \
+      cp /root/.vim/molokai/colors/molokai.vim /root/.vim/colors/molokai.vim
+
+COPY dotconfigs/.psqlrc /root/.psqlrc
+COPY dotconfigs/.tmux.conf /root/.tmux.conf
+COPY dotconfigs/.zshrc /root/.zshrc
