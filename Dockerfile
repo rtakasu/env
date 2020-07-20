@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:experimental
+
 # TODO: Not use latest
 FROM debian:latest
 
@@ -30,7 +32,7 @@ RUN apt-get update && apt-get install \
       curl -y
 
 # Install ohmyzsh
-RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+RUN sh -c "$(curl --fail -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # Install Tmux package manager
 RUN git clone https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm
@@ -77,3 +79,12 @@ RUN git clone https://github.com/VundleVim/Vundle.vim.git /root/.vim/bundle/Vund
 COPY dotconfigs/.psqlrc /root/.psqlrc
 COPY dotconfigs/.tmux.conf /root/.tmux.conf
 COPY dotconfigs/.zshrc /root/.zshrc
+
+RUN mkdir -m 700 /root/.ssh; \
+  touch -m 600 /root/.ssh/known_hosts; \
+  ssh-keyscan github.com > /root/.ssh/known_hosts
+
+# Load private repos
+RUN --mount=type=ssh git clone git@github.com:rtakasu/virtual_library.git /root/virtual_library
+
+CMD [tmux]

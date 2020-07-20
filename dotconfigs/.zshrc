@@ -161,6 +161,5 @@ ssh-add
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
