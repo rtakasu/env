@@ -1,0 +1,38 @@
+[user]
+	email = rafael@secondspectrum.com
+	name = Rafael Takasu
+[core]
+  editor = nvim
+	autocrlf = input
+[alias]
+  ph = push
+  pht = push --tags
+  phf = push --force-with-lease
+  phsuo = !"git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)"
+  pl = pull
+  plr = pull --rebase
+  ca = commit --amend
+  canv = commit --amend -nv
+  cnv = commit -nv
+  co = checkout
+  cob = checkout -b
+  rsho = !"git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"
+  rb = rebase
+  rbm = rebase master
+  rbi = rebase --interactive
+  rbim = rebase --interactive master
+  rbc = rebase --continue
+  rbs = rebase --skip
+  cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+  edit-prune = !"git branch --merged | grep -Ev '\\*|master|develop' >/tmp/merged-branches && vi /tmp/merged-branches && xargs git branch -d </tmp/merged-branches"
+  ssic = "!git clone git@git.2nd.io:$1"
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[push]
+  default = current
+[fetch]
+  prune = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+  required = true
