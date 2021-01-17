@@ -127,8 +127,8 @@ set wildmenu
 set visualbell
 set lazyredraw
 set smarttab
-set backupdir=$TMPDIR//
-set directory=$TMPDIR//
+"set backupdir=$TMPDIR//
+"set directory=$TMPDIR//
 
 " removes trailing whitespace
 fun! StripTailingWhitespace()
